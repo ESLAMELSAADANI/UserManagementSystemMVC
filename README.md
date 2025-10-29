@@ -44,6 +44,7 @@ It’s a perfect project for learning **ASP.NET Core MVC**, **Entity Framework C
 <img width="1920" height="889" alt="image" src="https://github.com/user-attachments/assets/153afa89-547c-4149-854b-eb22c8d95d11" />
 <img width="1920" height="893" alt="image" src="https://github.com/user-attachments/assets/84d46792-c415-4911-aa82-795349375b91" />
 <img width="1920" height="892" alt="image" src="https://github.com/user-attachments/assets/025d5aac-8152-4eba-8a7e-4f2b76de6574" />
+<img width="1920" height="889" alt="image" src="https://github.com/user-attachments/assets/4c7f57e3-a913-4620-b286-280f21394551" />
 
 ---
 
