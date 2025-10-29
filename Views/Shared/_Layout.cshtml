@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - Day06_Demo</title>
+
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/Day06_Demo.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+
+	<style>
+		/* Navbar Styling */
+		.navbar-custom {
+			background: linear-gradient(90deg, #0d6efd, #0a58ca);
+		}
+
+		.navbar-brand {
+			font-weight: bold;
+			font-size: 1.25rem;
+			color: #fff !important;
+			letter-spacing: 0.5px;
+		}
+
+		.nav-link {
+			color: #e9ecef !important;
+			transition: color 0.2s ease-in-out;
+		}
+
+			.nav-link:hover {
+				color: #fff !important;
+				text-decoration: underline;
+			}
+
+		.dropdown-menu {
+			border-radius: 0.5rem;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+
+		.dropdown-item:hover {
+			background-color: #f1f1f1;
+		}
+
+		/* Footer Styling */
+		.footer {
+			background: #f8f9fa;
+			padding: 1rem 0;
+			text-align: center;
+			font-size: 0.9rem;
+			color: #6c757d;
+		}
+
+			.footer a {
+				color: #0d6efd;
+				text-decoration: none;
+			}
+
+				.footer a:hover {
+					text-decoration: underline;
+				}
+	</style>
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-custom navbar-dark border-bottom shadow-sm mb-4">
+			<div class="container-fluid">
+				@if (!User.Identity.IsAuthenticated)
+				{
+					<a class="navbar-brand" asp-controller="Home" asp-action="Index">
+						<i class="bi bi-globe-americas"></i> CRUD & Authentication
+					</a>
+				}
+				else
+				{
+					<a class="navbar-brand" asp-controller="User" asp-action="Details" asp-route-id="@User.Claims.First().Value">
+						<i class="bi bi-person-circle"></i> @User.Identity.Name
+					</a>
+				}
+
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+						aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="mainNavbar">
+					<!-- Left section -->
+					<ul class="navbar-nav me-auto mb-2 mb-sm-0">
+						<li class="nav-item">
+							<a class="nav-link" asp-controller="Home" asp-action="Index">
+								<i class="bi bi-house-door"></i> Home
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-controller="Home" asp-action="Privacy">
+								<i class="bi bi-shield-lock"></i> Privacy
+							</a>
+						</li>
+
+						@if (User.IsInRole("Admin"))
+						{
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+									<i class="bi bi-people"></i> Users
+								</a>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" asp-controller="User" asp-action="Index"><i class="bi bi-list"></i> All Users</a></li>
+									<li><a class="dropdown-item" asp-controller="User" asp-action="Add"><i class="bi bi-person-plus"></i> Add User</a></li>
+								</ul>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+									<i class="bi bi-person-gear"></i> Roles
+								</a>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" asp-controller="Role" asp-action="Index"><i class="bi bi-list"></i> All Roles</a></li>
+									<li><a class="dropdown-item" asp-controller="Role" asp-action="Add"><i class="bi bi-plus-circle"></i> Add Role</a></li>
+								</ul>
+							</li>
+						}
+					</ul>
+
+					<!-- Right section -->
+					<ul class="navbar-nav ms-auto mb-2 mb-sm-0">
+						@if (!User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item">
+								<a class="nav-link" asp-controller="Account" asp-action="Register">
+									<i class="bi bi-person-plus"></i> Register
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-controller="Account" asp-action="Login">
+									<i class="bi bi-box-arrow-in-right"></i> Login
+								</a>
+							</li>
+						}
+						else
+						{
+							<li class="nav-item">
+								<a class="nav-link" asp-controller="Account" asp-action="Logout">
+									<i class="bi bi-box-arrow-right"></i> Logout
+								</a>
+							</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+	</header>
+
+	<div class="container">
+		<main role="main" class="pb-4">
+			@RenderBody()
+		</main>
+	</div>
+
+	<footer class="footer mt-auto border-top">
+		<div class="container">
+			&copy; @DateTime.Now.Year - <strong>MVC CRUD & Authentication</strong> |
+			<a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+		</div>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

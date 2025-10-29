@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "ReadSession";
+}
+
+<h1 class="text-center">ReadSession</h1>
+<table class="table table-bordered table-hover text-center">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>FName</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (ViewBag.id == null && ViewBag.name == null)
+		{
+			<tr>
+				<td colspan="2">There Are No Sessions Stored In Server</td>
+			</tr>
+		}
+		else
+		{
+			<tr>
+				<td>@ViewBag.id</td>
+				<td>@ViewBag.name</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
