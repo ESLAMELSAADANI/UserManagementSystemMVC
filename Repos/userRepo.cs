@@ -12,7 +12,9 @@ namespace Day06_Demo.Repos
         public bool emailExist(string email);
         public bool userNameExist(string userName);
         public Task<User> GetUserByIdWithRolesAsync(int id);
-        public Task<User> GetUserByEmailPasswordAsync(string email, string password,string userName);
+        public Task<User> GetUserByEmailPasswordAsync(string email, string password, string userName);
+        public Task<User> GetUserByEmailAsync(string email);
+        public Task<User> GetUserByUserNameAsync(string username);
     }
     public class userRepo : EntityRepo<User>, IUserRepoExtra
     {
@@ -23,6 +25,11 @@ namespace Day06_Demo.Repos
         public bool emailExist(string email)
         {
             return dbContext.Users.Any(u => u.Email == email);
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<User> GetUserByEmailPasswordAsync(string email, string password, string userName)
@@ -43,6 +50,11 @@ namespace Day06_Demo.Repos
         public async Task<User> GetUserByIdWithRolesAsync(int id)
         {
             return await dbContext.Users.Include(u => u.UsersRole).FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<User> GetUserByUserNameAsync(string username)
+        {
+            return await dbContext.Users.SingleOrDefaultAsync(u => u.UserName == username);
         }
 
         public bool userNameExist(string userName)

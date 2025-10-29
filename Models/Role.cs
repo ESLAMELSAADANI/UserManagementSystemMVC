@@ -7,7 +7,7 @@ namespace Day06_Demo.Models
     {
         public int Id { get; set; }
         [Required]
-        [Remote("RoleExist", "Role", ErrorMessage = "This Role Exist In DB!")]
+        [Remote("RoleExist", "Role", AdditionalFields = "Id", ErrorMessage = "This Role Exist In DB!")]
         public string RoleName { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();

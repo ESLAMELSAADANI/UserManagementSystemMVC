@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Threading.Tasks;
 
 namespace Day06_Demo.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class userController : Controller
     {
         public readonly EntityRepo<User> userRepo;
@@ -31,6 +32,7 @@ namespace Day06_Demo.Controllers
             var model = await userRepo.GetAllAsync();
             return View(model);
         }
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -44,7 +46,6 @@ namespace Day06_Demo.Controllers
             }
             return View(model);
         }
-        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -62,6 +63,7 @@ namespace Day06_Demo.Controllers
 
             return View(model);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(User model)
         {
@@ -71,8 +73,10 @@ namespace Day06_Demo.Controllers
                 await userRepo.SaveChangesAsync();
                 return RedirectToAction("index");
             }
-            return View();
+            var user = await userRepo.GetByIdAsync(model.Id);
+            return View(user);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -84,10 +88,12 @@ namespace Day06_Demo.Controllers
             await userRepo.SaveChangesAsync();
             return RedirectToAction("index");
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(User model)
         {
@@ -106,6 +112,7 @@ namespace Day06_Demo.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ViewRoles(int? id)
         {
             if (id == null)
@@ -125,24 +132,52 @@ namespace Day06_Demo.Controllers
             return View(userRoleVM);
         }
         [AllowAnonymous]
-        public IActionResult EmailExist([FromQuery(Name = "Email")] string email)
+        public async Task<IActionResult> EmailExist([FromQuery(Name = "Email")] string email, [FromQuery(Name = "Id")] int id)
         {
-            bool emailExist = userExtraRepo.emailExist(email);
-            if (emailExist)
-                return Json(false);
-            else
+            // When adding a new user (Id == 0)
+            if (id == 0)
+            {
+                bool emailExist = userExtraRepo.emailExist(email);
+                return Json(!emailExist); // true if email doesn't exist
+            }
+
+            // When editing an existing user
+            var existingUser = await userExtraRepo.GetUserByEmailAsync(email);
+
+            if (existingUser == null)
+                return Json(true); // Email doesn't exist in DB → valid
+
+            // Email exists but belongs to the same user being edited → valid
+            if (existingUser.Id == id)
                 return Json(true);
+
+            // Email exists and belongs to another user → invalid
+            return Json(false);
         }
         [AllowAnonymous]
-        public IActionResult UserNameExist([FromQuery(Name = "UserName")] string userName)
+        public async Task<IActionResult> UserNameExist([FromQuery(Name = "UserName")] string userName, [FromQuery(Name = "Id")] int id)
         {
-            bool userNameExist = userExtraRepo.userNameExist(userName);
-            if (userNameExist)
-                return Json(false);
-            else
-                return Json(true);
-        }
+            // When adding a new user (Id == 0)
+            if (id == 0)
+            {
+                bool nameExist = userExtraRepo.userNameExist(userName);
+                return Json(!nameExist); // true if username doesn't exist
+            }
 
+            // When editing an existing user
+            var existingUser = await userExtraRepo.GetUserByUserNameAsync(userName);
+
+            if (existingUser == null)
+                return Json(true); // username doesn't exist in DB → valid
+
+            // username exists but belongs to the same user being edited → valid
+            if (existingUser.Id == id)
+                return Json(true);
+
+            // username exists and belongs to another user → invalid
+            return Json(false);
+        }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUserRole(int roleId, int userID)
         {
             UserRole userRole = await userRoleRepo.GetAsync(userID, roleId);
@@ -163,6 +198,7 @@ namespace Day06_Demo.Controllers
             //return RedirectToAction("Login","account");
             return View("ViewRoles", model);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUserRole(int roleId, int userID)
         {
             UserRole userRole = new UserRole() { UserId = userID, RoleId = roleId };
@@ -183,6 +219,7 @@ namespace Day06_Demo.Controllers
             //return RedirectToAction("Login","account");
             return View("ViewRoles", model);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSelectedRoles(UserRoleVM model)
         {
             if (model.RolesToDeleteIds != null && model.RolesToDeleteIds.Count > 0)
@@ -211,6 +248,7 @@ namespace Day06_Demo.Controllers
             return View("ViewRoles", modell);
 
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddSelectedRoles(UserRoleVM model)
         {
             if (model.RolesToAddIds != null && model.RolesToAddIds.Count > 0)

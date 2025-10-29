@@ -98,27 +98,27 @@
 							</a>
 						</li>
 
-						@if (User.IsInRole("Admin"))
-						{
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-									<i class="bi bi-people"></i> Users
-								</a>
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" asp-controller="User" asp-action="Index"><i class="bi bi-list"></i> All Users</a></li>
-									<li><a class="dropdown-item" asp-controller="User" asp-action="Add"><i class="bi bi-person-plus"></i> Add User</a></li>
-								</ul>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-									<i class="bi bi-person-gear"></i> Roles
-								</a>
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" asp-controller="Role" asp-action="Index"><i class="bi bi-list"></i> All Roles</a></li>
-									<li><a class="dropdown-item" asp-controller="Role" asp-action="Add"><i class="bi bi-plus-circle"></i> Add Role</a></li>
-								</ul>
-							</li>
-						}
+						@* @if (User.IsInRole("Admin"))
+						{ *@
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+								<i class="bi bi-people"></i> Users
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" asp-controller="User" asp-action="Index"><i class="bi bi-list"></i> All Users</a></li>
+								<li><a class="dropdown-item" asp-controller="User" asp-action="Add"><i class="bi bi-person-plus"></i> Add User</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+								<i class="bi bi-person-gear"></i> Roles
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" asp-controller="Role" asp-action="Index"><i class="bi bi-list"></i> All Roles</a></li>
+								<li><a class="dropdown-item" asp-controller="Role" asp-action="Add"><i class="bi bi-plus-circle"></i> Add Role</a></li>
+							</ul>
+						</li>
+						@* } *@
 					</ul>
 
 					<!-- Right section -->
