@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - Day06_Demo</title>
 
+	<!-- Bootstrap & Site Styles -->
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/Day06_Demo.styles.css" asp-append-version="true" />
@@ -21,25 +22,32 @@
 			font-size: 1.25rem;
 			color: #fff !important;
 			letter-spacing: 0.5px;
+			transition: transform 0.2s ease;
 		}
+
+			.navbar-brand:hover {
+				transform: scale(1.05);
+			}
 
 		.nav-link {
 			color: #e9ecef !important;
-			transition: color 0.2s ease-in-out;
+			transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
 		}
 
 			.nav-link:hover {
 				color: #fff !important;
 				text-decoration: underline;
+				transform: translateY(-2px);
 			}
 
 		.dropdown-menu {
 			border-radius: 0.5rem;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 		}
 
 		.dropdown-item:hover {
 			background-color: #f1f1f1;
+			color: #0d6efd;
 		}
 
 		/* Footer Styling */
@@ -54,15 +62,33 @@
 			.footer a {
 				color: #0d6efd;
 				text-decoration: none;
+				transition: color 0.2s ease-in-out;
 			}
 
 				.footer a:hover {
 					text-decoration: underline;
+					color: #0a58ca;
 				}
+
+		main {
+			min-height: 70vh;
+		}
+
+		/* Profile icon hover */
+		.navbar-profile {
+			color: #0d6efd;
+			font-size: 1.2rem;
+			transition: transform 0.2s ease, color 0.2s ease;
+		}
+
+			.navbar-profile:hover {
+				transform: scale(1.1);
+				color: #fff;
+			}
 	</style>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100 bg-light">
 	<header>
 		<nav class="navbar navbar-expand-sm navbar-custom navbar-dark border-bottom shadow-sm mb-4">
 			<div class="container-fluid">
@@ -98,8 +124,6 @@
 							</a>
 						</li>
 
-						@* @if (User.IsInRole("Admin"))
-						{ *@
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
 								<i class="bi bi-people"></i> Users
@@ -109,6 +133,7 @@
 								<li><a class="dropdown-item" asp-controller="User" asp-action="Add"><i class="bi bi-person-plus"></i> Add User</a></li>
 							</ul>
 						</li>
+
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
 								<i class="bi bi-person-gear"></i> Roles
@@ -118,11 +143,10 @@
 								<li><a class="dropdown-item" asp-controller="Role" asp-action="Add"><i class="bi bi-plus-circle"></i> Add Role</a></li>
 							</ul>
 						</li>
-						@* } *@
 					</ul>
 
 					<!-- Right section -->
-					<ul class="navbar-nav ms-auto mb-2 mb-sm-0">
+					<ul class="navbar-nav ms-auto mb-2 mb-sm-0 align-items-center">
 						@if (!User.Identity.IsAuthenticated)
 						{
 							<li class="nav-item">
@@ -138,6 +162,11 @@
 						}
 						else
 						{
+							<li class="nav-item me-3">
+								<a class="nav-link navbar-profile" asp-controller="User" asp-action="Details" asp-route-id="@User.Claims.First().Value" title="Profile">
+									<i class="bi bi-person-circle"></i>
+								</a>
+							</li>
 							<li class="nav-item">
 								<a class="nav-link" asp-controller="Account" asp-action="Logout">
 									<i class="bi bi-box-arrow-right"></i> Logout
@@ -148,15 +177,16 @@
 				</div>
 			</div>
 		</nav>
-
 	</header>
 
-	<div class="container">
+	<!-- Main Content -->
+	<div class="container flex-grow-1 my-4">
 		<main role="main" class="pb-4">
 			@RenderBody()
 		</main>
 	</div>
 
+	<!-- Footer -->
 	<footer class="footer mt-auto border-top">
 		<div class="container">
 			&copy; @DateTime.Now.Year - <strong>MVC CRUD & Authentication</strong> |
@@ -164,6 +194,7 @@
 		</div>
 	</footer>
 
+	<!-- Scripts -->
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>

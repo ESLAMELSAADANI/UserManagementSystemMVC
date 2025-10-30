@@ -9,9 +9,9 @@ namespace Day06_Demo.Repos
         public Task AddAsync(int userId, int roleId);
         public Task<UserRole> GetAsync(int userId, int roleId);
     }
-    public class userRoleRepo : EntityRepo<UserRole>, IUserRoleRepo
+    public class UserRoleRepo : EntityRepo<UserRole>, IUserRoleRepo
     {
-        public userRoleRepo(AuthDemoDbContext _dbContext) : base(_dbContext)
+        public UserRoleRepo(AuthDemoDbContext _dbContext) : base(_dbContext)
         {
         }
 

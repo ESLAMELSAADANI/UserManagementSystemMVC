@@ -16,9 +16,9 @@ namespace Day06_Demo.Repos
         public Task<User> GetUserByEmailAsync(string email);
         public Task<User> GetUserByUserNameAsync(string username);
     }
-    public class userRepo : EntityRepo<User>, IUserRepoExtra
+    public class UserRepo : EntityRepo<User>, IUserRepoExtra
     {
-        public userRepo(AuthDemoDbContext _dbContext) : base(_dbContext)
+        public UserRepo(AuthDemoDbContext _dbContext) : base(_dbContext)
         {
         }
 

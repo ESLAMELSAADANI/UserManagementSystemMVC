@@ -29,12 +29,12 @@ namespace Day06_Demo
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("AuthDemoDb_Conn"));
             });
-            builder.Services.AddScoped<EntityRepo<User>, userRepo>();
-            builder.Services.AddScoped<EntityRepo<Role>, roleRepo>();
-            builder.Services.AddScoped<EntityRepo<UserRole>, userRoleRepo>();
-            builder.Services.AddScoped<IUserRoleRepo, userRoleRepo>();
-            builder.Services.AddScoped<IUserRepoExtra, userRepo>();
-            builder.Services.AddScoped<IRole, roleRepo>();
+            builder.Services.AddScoped<EntityRepo<User>, UserRepo>();
+            builder.Services.AddScoped<EntityRepo<Role>, RoleRepo>();
+            builder.Services.AddScoped<EntityRepo<UserRole>, UserRoleRepo>();
+            builder.Services.AddScoped<IUserRoleRepo, UserRoleRepo>();
+            builder.Services.AddScoped<IUserRepoExtra, UserRepo>();
+            builder.Services.AddScoped<IRole, RoleRepo>();
 
             var app = builder.Build();
 

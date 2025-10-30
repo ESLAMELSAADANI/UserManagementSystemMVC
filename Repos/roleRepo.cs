@@ -12,9 +12,9 @@ namespace Day06_Demo.Repos
         public Task<List<Role>> GetUserAnotherRolesAsync(int userID);
 
     }
-    public class roleRepo : EntityRepo<Role>, IRole
+    public class RoleRepo : EntityRepo<Role>, IRole
     {
-        public roleRepo(AuthDemoDbContext _dbContext) : base(_dbContext)
+        public RoleRepo(AuthDemoDbContext _dbContext) : base(_dbContext)
         {
         }
 
